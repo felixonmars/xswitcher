@@ -14,7 +14,6 @@ HOW TO USE (for systemd distributions):
 2. Run the following commands:
 
 ```
-chmod +x xswitcher
 sudo install -Dm755 xswitcher -t /usr/local/bin/
 sudo install -Dm644 xswitcher.service -t /etc/systemd/system/
 sudo systemctl enable xswitcher.service
