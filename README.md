@@ -9,7 +9,19 @@ Also, this script will only work if you have an pciID that looks like like: 8:00
 You can check this with the command "lspci | grep VGA"
 
 
-HOW TO USE:
+HOW TO USE (for systemd distributions):
+1. Clone Repo into temp directory
+2. Run the following commands:
+
+```
+chmod +x xswitcher
+sudo install -Dm755 xswitcher -t /usr/local/bin/
+sudo install -Dm644 xswitcher.service -t /etc/systemd/system/
+sudo systemctl enable xswitcher.service
+```
+
+
+HOW TO USE (legacy):
 
 1. Clone Repo into temp directory
 2. Make setup.sh executable with "chmod +x setup.sh"
