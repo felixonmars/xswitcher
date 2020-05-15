@@ -5,7 +5,7 @@
 numOfGpus=$(lspci | grep -o "VGA" | wc -l)
 
 #Get first number of PCI ID.
-pciID=$(lspci | grep "VGA" | tail -n1 | grep -o "[0-9][0-9]" | tr -d ":" | head -1)
+pciID=$(lspci | grep "VGA" | tail -n1 | grep -o "^[0-9a-f][0-9a-f]" | tr -d ":" | head -1)
 #NOTE: This will only work if the output of " lspci : grep VGA "
 #      has a number that looks like 08:00.0 or 05:00.0 
 #      It will not work with things like 00:02.0 or 05:04.0
@@ -20,12 +20,7 @@ then
 	echo "More than one VGA controller Detected!"
 	echo "Changing xorg.conf"
 
-	touch /home/chris/	
-	#Make the config file
-	sudo touch /etc/X11/xorg.conf > /dev/null
-
-
-	sudo cat > /etc/X11/xorg.conf << EOL
+	cat > /etc/X11/xorg.conf << EOL
 
 Section "Module"
 Load "modesetting"
@@ -35,20 +30,14 @@ Section "Device"
 Identifier "nvidia"
 Driver "nvidia"
 BusID  "PCI:$((16#${pciID})):0:0" 
-Option "AllowEmptyInitialConfiguration"
 Option "AllowExternalGpus"
 EndSection
 EOL
 
 
 
-	#When eGPU is NOT connected renamed xorg.conf file
+	#When eGPU is NOT connected, remove xorg.conf file
 else
-	#Remove the xorg.config file to allow us to boot normaly 
+	#Remove the xorg.config file to allow us to boot normaly
 	rm /etc/X11/xorg.conf
 fi
-
-
-
-
-exit 0
